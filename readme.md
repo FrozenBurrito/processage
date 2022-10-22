@@ -6,11 +6,11 @@ Processage embeds a secret message into a process tree and displays the processe
 
 ## Description
 
-Understanding PIDs and PPIDS was challenging for my students, so I made processage to help with that (and for fun and to help me learn new things, too). The goal is to gamify learning about PIDs and PPIDs.
+Understanding PIDs and PPIDS was challenging for my students, so I made processage to help with that (and for fun and to help me learn new things, too). The goal was to sort of gamify learning about PIDs and PPIDs.
 
 * Each character in the secret message is used as the name of a new process, which process is parented to the previous character's process.
 * Linux
-    * Sets process names in process tree (Try:  ps -ef | sort)
+    * Sets process names as shown in ps (Try:  ps -ef | sort)
 * Windows
     * Process names are available in processage and Windows Process Explorer, but not in Task Manager or via wmic.  For more info:
         * See [setproctitle](https://pypi.org/project/setproctitle/)
