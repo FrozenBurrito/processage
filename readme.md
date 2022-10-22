@@ -2,7 +2,7 @@
 
 # processage v0.2
 
-Processage embeds a secret message into a process tree and displays the processes in a shuffled table. Re-construct the process family tree to decode the secret message.
+Processage embeds a secret message into a process tree (real/running) and displays the processes in a shuffled table. Re-construct the process family tree to decode the secret message.
 
 ## Description
 
@@ -11,7 +11,7 @@ Understanding PIDs and PPIDS was challenging for my students, so I made processa
 * Each character in the secret message is used as the name of a new process, which process is parented to the previous character's process.
     * Process names may be set to the ASCII, binary, or hex representation of each character in the secret message.
 * Linux
-    * Sets process names as shown in ps (Try:  ps -ef | sort)
+    * Sets process names as shown in ps (Try:  ps -ef | sort or pstree)
 * Windows
     * Process names are available in processage and Windows Process Explorer, but not in Task Manager or via wmic.  For more info:
         * See [setproctitle](https://pypi.org/project/setproctitle/)
