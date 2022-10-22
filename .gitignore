@@ -1,0 +1,7 @@
+# build
+Include
+Lib
+Scripts
+
+# env
+pyvenv.cfg
