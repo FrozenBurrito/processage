@@ -94,10 +94,22 @@ if __name__ == "__main__":
     # These output files may be useful for generating practice worksheets.
     # Comment out if not necessary.
     print("Copying output to clipboard and saving as .xls, .csv, and .html.")
-    process_tree_df.to_clipboard()
-    process_tree_df.to_html("output.html")
-    process_tree_df.to_csv("output.csv")
-    process_tree_df.to_markdown("output.md")
+    try:
+        process_tree_df.to_clipboard()
+    except:
+        print("Error copying to clipboard.")
+    try:    
+        process_tree_df.to_html("output.html")
+    except:
+        print("Error creating output.html")
+    try:
+        process_tree_df.to_csv("output.csv")
+    except:
+        print("Error creating output.csv")
+    try:
+        process_tree_df.to_markdown("output.md")
+    except:
+        print("Error creating output.md")
 
     input("Press enter to end all child processes and exit.")
 
