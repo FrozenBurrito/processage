@@ -1,6 +1,6 @@
 <img src="screenshot.jpg" width="75%" height="75%" />
 
-# processage v0.1
+# processage v0.2
 
 Processage embeds a secret message into a process tree and displays the processes in a shuffled table. Re-construct the process family tree to decode the secret message.
 
