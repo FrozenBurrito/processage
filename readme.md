@@ -25,7 +25,7 @@ Understanding PIDs and PPIDS was challenging for my students, so I made processa
 
 ## Getting Started
 
-### Cloning and Setup
+### Cloning and Environment Setup
 * Linux:
 ```
 git clone https://github.com/FrozenBurrito/processage.git
@@ -33,7 +33,6 @@ cd processage
 python -m venv .
 source bin/activate
 pip install -r requirements.txt
-python processage.py
 ```
 * Windows
 ```
@@ -42,7 +41,6 @@ cd processage
 python -m venv .
 scripts\activate.bat 
 pip install -r requirements.txt
-python processage.py
 ```
 
 ### Running processage
