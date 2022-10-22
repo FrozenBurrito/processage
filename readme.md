@@ -11,7 +11,17 @@ Understanding PIDs and PPIDS was challenging for my students, so I made processa
 * Each character in the secret message is used as the name of a new process, which process is parented to the previous character's process.
     * Process names may be set to the ASCII, binary, or hex representation of each character in the secret message.
 * Linux
-    * Sets process names as shown in ps (Try:  ps -ef | sort or pstree)
+    * Sets process names on Linux.  While active, try: 
+        ```
+        ps -e | less
+        ps -el | less
+        ps -eo %c%p%P | less
+        ps -ef # f flag will not show new process name
+        ```
+    * To reveal ordered tree with names, try:  
+        ```
+        pstree -ap | grep processage
+        ```
 * Windows
     * Process names are available in processage and Windows Process Explorer, but not in Task Manager or via wmic.  For more info:
         * See [setproctitle](https://pypi.org/project/setproctitle/)
