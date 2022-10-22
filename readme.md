@@ -16,8 +16,8 @@ Understanding PIDs and PPIDS was challenging for my students, so I made processa
     * Process names are available in processage and Windows Process Explorer, but not in Task Manager or via wmic.  For more info:
         * See [setproctitle](https://pypi.org/project/setproctitle/)
         * See [Windows Process Explorer](http://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)
-* At close, processage copies the shuffled process tree (game board?) to the clipboard and saves it as csv, html, and markdown..
-    * Example output in shown in output.csv, output.md, and output.html.
+* At close, processage copies the shuffled process tree (game board?) to the clipboard and saves it as csv, html, and markdown.
+    * Example output is shown in output.csv, output.md, and output.html.
     * Comment out lines 76-78 to disable saving output.
     * These files could be useful for constructing secret message worksheets.
 * For fun, try using a shortened url as the secret message.
@@ -50,7 +50,7 @@ Jon Morris, [frozenburrito](https://github.com/frozenburrito)
 
 ## Version History
 * 0.2
-    * Added process name encoding options (ASCII, binary, or hex)
+    * Added process name options (ASCII, binary, or hex)
 * 0.1
     * It works!
 
