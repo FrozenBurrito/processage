@@ -11,6 +11,8 @@ from tabulate import tabulate
 def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, encoding_type, quit_signal):
     # set process title in OS to match name attribute used by python multiprocessing module.
     setproctitle.setproctitle(mp.current_process().name)
+    setproctitle.setthreadtitle(mp.current_process().name)
+    print("Naming: " + mp.current_process().name)
     # update process tree
     process_tree_csv.value = process_tree_csv.value + mp.current_process().name + "," + str(os.getpid()) + "," + str(os.getppid()) + "\n"
     # increment index value
