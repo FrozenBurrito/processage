@@ -9,10 +9,7 @@ from ctypes import c_char_p
 from tabulate import tabulate
 
 def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, encoding_type, quit_signal):
-    # set process title in OS to match name attribute used by python multiprocessing module.
-    setproctitle.setproctitle(mp.current_process().name)
-    setproctitle.setthreadtitle(mp.current_process().name)
-    print("Naming: " + mp.current_process().name)
+    set_process_name()
     # update process tree
     process_tree_csv.value = process_tree_csv.value + mp.current_process().name + "," + str(os.getpid()) + "," + str(os.getppid()) + "\n"
     # increment index value
@@ -26,6 +23,19 @@ def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, encodi
         time.sleep(0.1)
     print("Ending process", mp.current_process().name, "with PID", str(os.getpid()))
     sys.exit(0)
+
+def set_process_name():
+    # set process title in OS to match name attribute used by python multiprocessing module.
+    setproctitle.setproctitle(mp.current_process().name)
+    setproctitle.setthreadtitle(mp.current_process().name)
+    # Alternative method for setting process name if OS is linux.
+    if 'posix' in os.name:
+        try:
+            # See https://stackoverflow.com/questions/564695/is-there-a-way-to-change-effective-process-name-in-python/68508813#68508813
+            with open(f'/proc/self/comm', 'w') as f:
+                f.write(mp.current_process().name)
+        except:
+            pass
 
 def create_process_name(character, encoding_type):
     if encoding_type.value == 1:
