@@ -13,11 +13,11 @@ def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, quit_s
     setproctitle.setproctitle(mp.current_process().name)
     # update process tree
     process_tree_csv.value = process_tree_csv.value + mp.current_process().name + "," + str(os.getpid()) + "," + str(os.getppid()) + "\n"
+    # increment index value
     hidden_message_index.value = hidden_message_index.value + 1
     # spawn next child
     if hidden_message_index.value < len(hidden_message.value):
         mp.Process(target=sleepy_worker, name=hidden_message.value[hidden_message_index.value], args=(process_tree_csv, hidden_message, hidden_message_index, quit_signal), daemon=False).start()
-        # increment index value
     while quit_signal.value == 0:  
         time.sleep(0.1)
     print("Ending process", mp.current_process().name, "with PID", str(os.getpid()))
