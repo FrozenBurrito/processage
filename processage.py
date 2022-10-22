@@ -8,21 +8,34 @@ import pandas as pd
 from ctypes import c_char_p
 from tabulate import tabulate
 
-def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, quit_signal):
+def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, encoding_type, quit_signal):
     # set process title in OS to match name attribute used by python multiprocessing module.
     setproctitle.setproctitle(mp.current_process().name)
     # update process tree
     process_tree_csv.value = process_tree_csv.value + mp.current_process().name + "," + str(os.getpid()) + "," + str(os.getppid()) + "\n"
+    # increment index value
     hidden_message_index.value = hidden_message_index.value + 1
-    # spawn next child
     if hidden_message_index.value < len(hidden_message.value):
-        mp.Process(target=sleepy_worker, name=hidden_message.value[hidden_message_index.value], args=(process_tree_csv, hidden_message, hidden_message_index, quit_signal), daemon=False).start()
+        # create process name
+        name = create_process_name(hidden_message.value[hidden_message_index.value], encoding_type)
+        # spawn next child
+        mp.Process(target=sleepy_worker, name=name, args=(process_tree_csv, hidden_message, hidden_message_index, encoding_type, quit_signal), daemon=False).start()
         # increment index value
     while quit_signal.value == 0:  
         time.sleep(0.1)
     print("Ending process", mp.current_process().name, "with PID", str(os.getpid()))
     sys.exit(0)
 
+def create_process_name(character, encoding_type):
+    if encoding_type.value == 1:
+        # return 8-bit binary representation of character
+        return format(ord(character), 'b').zfill(8)
+    elif encoding_type.value == 2:
+        # return hex representation of character
+        return format(ord(character), 'x') + "h"
+    else: 
+        return character
+        
 if __name__ == "__main__":
     try:
         if "h" in sys.argv[1]:
@@ -39,11 +52,21 @@ if __name__ == "__main__":
     hidden_message = manager.Value(c_char_p, getpass.getpass("Secret Message (input is invisible): ")) 
     process_tree_csv = manager.Value(c_char_p, "")
     hidden_message_index = manager.Value('i', 0)
+    encoding_type = manager.Value('i', 0)
     quit_signal = manager.Value('i', 0)
+    
+    encoding_choice = input("Process name type ('a' or enter for ASCII, 'b' for Binary, 'h' for Hex)? ")
+    if "b" in encoding_choice:
+        encoding_type.value = 1
+    elif "h" in encoding_choice:
+        encoding_type.value = 2
+    else: 
+        encoding_type.value = 0
 
     # Create nexted process tree
     # -Note: daemon child processes are not allowed to have children
-    mp.Process(target=sleepy_worker, name=hidden_message.value[hidden_message_index.value], args=(process_tree_csv, hidden_message, hidden_message_index, quit_signal), daemon=False).start()
+    name = create_process_name(hidden_message.value[hidden_message_index.value], encoding_type)
+    mp.Process(target=sleepy_worker, name=name, args=(process_tree_csv, hidden_message, hidden_message_index, encoding_type, quit_signal), daemon=False).start()
 
     # sleep main process until processes are created
     animation = [" - "," \\ "," | "," / "]
