@@ -9,6 +9,7 @@ Processage embeds a secret message into a process tree and displays the processe
 Understanding PIDs and PPIDS was challenging for my students, so I made processage to help with that (and for fun and to help me learn new things, too). The goal was to sort of gamify learning about PIDs and PPIDs.
 
 * Each character in the secret message is used as the name of a new process, which process is parented to the previous character's process.
+    * Process names may be set to the ASCII, binary, or hex representation of each character in the secret message.
 * Linux
     * Sets process names as shown in ps (Try:  ps -ef | sort)
 * Windows
@@ -48,7 +49,8 @@ Let me know if you have any questions or suggestions.
 Jon Morris, [frozenburrito](https://github.com/frozenburrito)
 
 ## Version History
-
+* 0.2
+    * Added process name encoding options (ASCII, binary, or hex)
 * 0.1
     * It works!
 
