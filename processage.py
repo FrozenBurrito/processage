@@ -50,8 +50,8 @@ def create_process_name(character, encoding_type):
 if __name__ == "__main__":
     try:
         if "h" in sys.argv[1]:
-            print("\nprocessage: embeds a secret message inside a process tree (for fun and learnings).")
-            print("-Each character in the secret message is assigned as the name of a new process, which process is parented to the previous character's process.")
+            print("\nprocessage: embeds a secret message inside a process tree.")
+            print("-Each character in the secret message spawns a new process, which process is parented to the previous character's process.")
             print("-Decode the secret message by constructing the process family tree!")
             print("Usage:")
             print("   python processage.py")
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     encoding_type = manager.Value('i', 0)
     quit_signal = manager.Value('i', 0)
     
-    encoding_choice = input("Process name type ('a' or enter for ASCII, 'b' for Binary, 'h' for Hex)? ")
+    encoding_choice = input("Process name type ('a' or enter for ASCII plaintext, 'b' for binary, 'h' for hex)? ")
     if "b" in encoding_choice:
         encoding_type.value = 1
     elif "h" in encoding_choice:

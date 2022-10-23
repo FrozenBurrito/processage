@@ -68,7 +68,7 @@ Jon Morris, [frozenburrito](https://github.com/frozenburrito)
 
 ## Version History
 * 0.2
-    * Added process name options (ASCII, binary, or hex)
+    * Added process name options (ASCII plaintext, binary, or hex)
 * 0.1
     * It works!
 
