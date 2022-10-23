@@ -25,13 +25,13 @@ def sleepy_worker(process_tree_csv, hidden_message, hidden_message_index, encodi
     sys.exit(0)
 
 def set_process_name():
-    # set process title in OS to match name attribute used by python multiprocessing module.
+    # attempt to set process name, title, or cmd in OS to match name attribute used by python multiprocessing module.
     setproctitle.setproctitle(mp.current_process().name)
     setproctitle.setthreadtitle(mp.current_process().name)
-    # Alternative method for setting process name if OS is linux.
+    # backup method for setting process name
+    # see https://stackoverflow.com/questions/564695/is-there-a-way-to-change-effective-process-name-in-python/68508813#68508813
     if 'posix' in os.name:
         try:
-            # See https://stackoverflow.com/questions/564695/is-there-a-way-to-change-effective-process-name-in-python/68508813#68508813
             with open(f'/proc/self/comm', 'w') as f:
                 f.write(mp.current_process().name)
         except:
@@ -48,6 +48,7 @@ def create_process_name(character, encoding_type):
         return character
         
 if __name__ == "__main__":
+    # output of python processage.py help
     try:
         if "h" in sys.argv[1]:
             print("\nprocessage: embeds a secret message inside a process tree.")
@@ -59,6 +60,7 @@ if __name__ == "__main__":
     except:
         pass
 
+    # setup process memory sharing and shared variables
     manager = mp.Manager()
     hidden_message = manager.Value(c_char_p, getpass.getpass("Secret Message (input is invisible): ")) 
     process_tree_csv = manager.Value(c_char_p, "")
@@ -66,6 +68,7 @@ if __name__ == "__main__":
     encoding_type = manager.Value('i', 0)
     quit_signal = manager.Value('i', 0)
     
+    # solicit process name type
     encoding_choice = input("Process name type ('a' or enter for ASCII plaintext, 'b' for binary, 'h' for hex)? ")
     if "b" in encoding_choice:
         encoding_type.value = 1
@@ -74,12 +77,17 @@ if __name__ == "__main__":
     else: 
         encoding_type.value = 0
 
-    # Create nexted process tree
-    # -Note: daemon child processes are not allowed to have children
+    # create nested process tree
+    # -note: daemon child processes are not allowed to have children
     name = create_process_name(hidden_message.value[hidden_message_index.value], encoding_type)
     mp.Process(target=sleepy_worker, name=name, args=(process_tree_csv, hidden_message, hidden_message_index, encoding_type, quit_signal), daemon=False).start()
 
-    # sleep main process until processes are created
+    # sleep main process until all child processes are created
+        # consider hiding cursor with:
+        # from colorama import init
+        # init()
+        # print('\033[?25l', end="") # hide cursor
+        # print('\033[?25h', end="") # show cursor
     animation = [" - "," \\ "," | "," / "]
     animation_frame = 0;
     while len(process_tree_csv.value.strip().split('\n')) < len(hidden_message.value):
@@ -93,7 +101,7 @@ if __name__ == "__main__":
         sys.stdout.flush()
         time.sleep(0.25)
 
-    # load process tree csv into a panda's dataframe
+    # after all child processes are created, load process tree csv into a panda's dataframe
     columns = ["Process Name", "Process ID (PID)", "Parent Process ID (PPID)"]
     process_tree_df = pd.DataFrame([row.split(',') for row in process_tree_csv.value.strip().split('\n')], columns=columns)
 
@@ -103,8 +111,8 @@ if __name__ == "__main__":
     # print dataframe with tabulate
     print("\n" + tabulate(process_tree_df, headers='keys', tablefmt='grid', colalign=("center","center","center"), showindex=False))
 
-    # These output files may be useful for generating practice worksheets.
-    # Comment out if not necessary.
+    # save output, which may be useful for generating practice worksheets
+    # comment out if not necessary
     print("Copying output to clipboard and saving as .xls, .csv, and .html.")
     try:
         process_tree_df.to_clipboard()
@@ -123,8 +131,10 @@ if __name__ == "__main__":
     except:
         print("Error creating output.md")
 
+    # block main process, await user input (enter) to end processes and exit
     input("Press enter to end all child processes and exit.")
 
+    # end all child processes and exit
     quit_signal.value = 1
     time.sleep(1)
     print("Exiting...")
