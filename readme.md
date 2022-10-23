@@ -8,7 +8,7 @@ Processage embeds a secret message into a process tree (real/running) and displa
 
 Understanding PIDs and PPIDS was challenging for my students, so I made processage to help with that (and for fun and to help me learn new things, too). The goal was to sort of gamify learning about PIDs and PPIDs.
 
-* Each character in the secret message is used as the name of a new process, which process is parented to the previous character's process.
+* Each character in the secret message spawns a new process, which process is parented to the previous character's process.
     * Process names may be set to the ASCII, binary, or hex representation of each character in the secret message.
 * Linux
     * Sets process names on Linux.  While active, try: 
