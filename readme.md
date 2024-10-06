@@ -29,7 +29,7 @@ Understanding PIDs and PPIDS was challenging for my students, so I made processa
 * At close, processage copies the shuffled process tree (game board?) to the clipboard and saves it as csv, html, and markdown.
     * Example output is shown in output.csv, output.md, and output.html.
     * Comment out lines 99-112 to disable saving output.
-    * These files could be useful for constructing secret message worksheets.
+    * These files could be useful for creating secret message worksheets.
 * For fun, try using a shortened url as the secret message.
 * Basically, a linked list.
 
