@@ -2,7 +2,7 @@
 
 # processage v0.2
 
-Processage embeds a secret message into a process tree (real/running) and displays the processes in a shuffled table. Re-construct the process family tree to decode the secret message.
+Processage embeds a secret message into a process tree (real/running) and displays the processes in a shuffled table. Re-construct the process family tree to decode the secret message.  Update 10/5/24: Created with Python 3.8, compatible with 3.12.
 
 ## Description
 
