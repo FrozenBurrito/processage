@@ -16,7 +16,7 @@ Understanding PIDs and PPIDS was challenging for my students, so I made processa
         ps -e | less
         ps -el | less
         ps -eo %c%p%P | less
-        ps -ef # f flag will not show new process name
+        ps -ef # important note: f flag will not show new process names
         ```
     * To reveal ordered tree with names, try:  
         ```
